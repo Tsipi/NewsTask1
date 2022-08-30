@@ -1,0 +1,64 @@
+@import '../../../styles/colors.scss';
+@import '../../../styles/font-face.scss';
+
+.button {
+  border: none;
+  cursor: pointer;
+  height: 4rem;
+  width: auto;
+  padding: 1.3rem 2rem;
+  border-radius: 4px;
+  font-family: var(--font-medium);
+  font-size: 1.4rem;
+  text-transform: capitalize;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 8rem;
+
+  &:disabled {
+    cursor: default;
+    &:hover {
+      filter: none;
+    }
+  }
+
+  &:hover {
+    filter: brightness(95%);
+  }
+
+  &.primary {
+    background-color: var(--primary-button);
+  }
+
+  &.secondary {
+    background-color: var(--secondary-button);
+
+    &.active {
+      filter: brightness(95%);
+    }
+  }
+
+  &.text {
+    background-color: transparent;
+
+    &:hover {
+      filter: none;
+    }
+  }
+
+  &.loading {
+    color: transparent;
+  }
+
+  .loadingContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+  }
+
+  .iconContainer {
+    margin-right: 0.5rem;
+  }
+}

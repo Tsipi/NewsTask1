@@ -1,0 +1,20 @@
+:root {
+  --white: #ffffff;
+  --black: #111533;
+  --blue: #1d77ff;
+  --light-gray: #e6ebef;
+  --gray: #888a9b;
+  --silver: #f8fbfd;
+  --broken-white: #e3e9ed;
+  --yellow: #fdc63d;
+  --bright-yellow: #ffeec5;
+  --dark-yellow: #e1aa22;
+  --dark-red: #7c3026;
+  --bright-red: #fd543d;
+
+  --primary-button: var(--yellow);
+  --secondary-button: var(--broken-white);
+  --active-channel-bg: #edf3f8;
+  --placeholder-input: #c3c4cc;
+  --input-border: var(--broken-white);
+}
