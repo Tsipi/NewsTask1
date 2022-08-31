@@ -1,11 +1,12 @@
 import "react-datepicker/dist/react-datepicker.css";
 
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { closePopup, State } from "../../store";
 import { NewsForm } from "../../components/NewsForm/NewsForm";
 import { updateDate, updateTitle, updateUrl } from "./addNewsFormSlice";
 import { addNewsItem } from "../../components/ItemsList/itemsListSlice";
+import { isValidUrl } from "../../utils/isValidUrl";
 
 export const AddNewsForm = () => {
   const dispatch = useDispatch();
@@ -13,9 +14,18 @@ export const AddNewsForm = () => {
   const url = useSelector((state: State) => state.addNewsForm.url);
   const title = useSelector((state: State) => state.addNewsForm.title);
   const date = useSelector((state: State) => state.addNewsForm.date);
+  const [errorUrl, setErrorUrl] = useState<string | null>(null);
 
-  const handleSubmit = () => {
-    if (url && date && title) {
+  const handleSubmit = () => {      
+    if(!url){
+       setErrorUrl("Please paste a valid url");
+       return;
+    } 
+    if(!isValidUrl(url)){
+       setErrorUrl("This is not a valid url");
+       return;
+    } 
+    if (date && title) {        
       dispatch(
         addNewsItem({
           url,
@@ -41,6 +51,6 @@ export const AddNewsForm = () => {
   };
 
   return (
-    <NewsForm handleDateChange={handleDateChange} handleTitleChange={handleTitleChange} handleUrlChange={handleUrlChange} handleSubmit={handleSubmit} />
+    <NewsForm errorUrl={errorUrl} handleDateChange={handleDateChange} handleTitleChange={handleTitleChange} handleUrlChange={handleUrlChange} handleSubmit={handleSubmit} />
   )
 };
