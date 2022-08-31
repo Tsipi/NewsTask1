@@ -1,6 +1,5 @@
 import "./App.scss";
 
-import React, { useState } from "react";
 import { Popup } from "./components/Popup/Popup";
 import { closePopup, openPopup, State } from "./store";
 import { ItemsList } from "./components/ItemsList/ItemsList";

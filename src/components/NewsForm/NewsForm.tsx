@@ -1,13 +1,10 @@
 import "react-datepicker/dist/react-datepicker.css";
 
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { State } from "../../store";
 import styles from "./NewsForm.module.scss";
 import DatePicker from "react-datepicker";
 import { Button } from "../shared/button/button";
 // import { ruTranslations } from "stream-chat-react";
-import { addNewsItem } from "../ItemsList/itemsListSlice";
 
 // TODO:
 // to be able to edit article you need to create 3 components
@@ -54,7 +51,7 @@ export const NewsForm = ({
       <div className={styles.inputContainer}>
         <div className={styles.inputLabel}>News Item URL *</div>
         <input
-          value={url}
+          value={url!}
           type="input"
           placeholder="Paste Link"
           onChange={(event) => handleUrlChange(event.target.value)}
@@ -75,7 +72,7 @@ export const NewsForm = ({
       <div className={styles.inputContainer}>
         <div className={styles.inputLabel}>Article Title *</div>
         <textarea
-          value={title}
+          value={title!}
           id="articleSummary"
           placeholder="Type article summary here..."
           onChange={(event) => handleTitleChange(event.target.value)}

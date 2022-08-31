@@ -6,18 +6,21 @@
   "main": "src/index.tsx",
   "dependencies": {
     "@reduxjs/toolkit": "1.8.5",
-    "react": "18.0.0",
-    "react-datepicker": "4.8.0",
-    "react-dom": "18.0.0",
+    "react": "^18.0.0",
+    "react-datepicker": "^4.8.0",
+    "react-dom": "^18.0.0",
     "react-redux": "8.0.2",
     "react-scripts": "4.0.3"
   },
   "devDependencies": {
-    "@types/react": "17.0.20",
-    "@types/react-dom": "17.0.9",
+    "@types/react": "^17.0.20",
+    "@types/react-datepicker": "^4.4.2",
+    "@types/react-dom": "^17.0.9",
+    "sass": "^1.54.7",
     "typescript": "4.4.2"
   },
   "scripts": {
+    "preinstall": "npx npm-force-resolutions",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
@@ -28,5 +31,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "resolutions": {
+    "@types/react": "17.0.44"
+  }
 }
