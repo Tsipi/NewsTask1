@@ -24,7 +24,7 @@ interface Props {
   url?: string | null;
   title?: string | null;
   date?: string | null;
-  isValidUrl?: boolean;
+  errorUrl?: string | null;
   handleUrlChange: (url: string) => void;
   handleTitleChange: (title: string) => void;
   handleDateChange: (date: string) => void;
@@ -38,7 +38,7 @@ export const NewsForm = ({
   url,
   title,
   date,
-  isValidUrl,
+  errorUrl,
   handleSubmit
 }: Props) => {
   return (
@@ -56,8 +56,8 @@ export const NewsForm = ({
           placeholder="Paste Link"
           onChange={(event) => handleUrlChange(event.target.value)}
         />
-        {!isValidUrl && (
-          <div className={styles.errorLabel}>Please enter valid values</div>
+        {errorUrl && (
+          <div className={styles.errorLabel}>{errorUrl}</div>
         )}
       </div>
       <div className={styles.inputContainer}>
