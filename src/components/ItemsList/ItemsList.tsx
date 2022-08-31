@@ -6,6 +6,7 @@ import deleteIcon from "../../assets/svg/delete-icon.svg";
 import editIcon from "../../assets/svg/edit-icon.svg";
 import { deleteNewsItem } from "./itemsListSlice";
 import { editNewsForm } from "../../features/EditNewsForm/editNewsFormSlice";
+import {format} from 'date-fns'
 
 export const ItemsList = () => {
   const dispatch = useDispatch();
@@ -26,10 +27,10 @@ export const ItemsList = () => {
         {itemsList.map((item, index) => (
           <li key={index}>
             <a href={item.url} className="news-wrap">
-              <div className="news-title">
-                <span>{item.title}</span> - <span>{item.date}</span>
-              </div>
-              <p>{item.url}</p>
+              <div className={styles.newsTitle}>
+                  <span>{item.url}</span> - <span>{format(new Date(item.date),"dd/MM/yyyy")}</span>
+              </div>             
+              <p>{item.title}</p>
             </a>
             <div className="btns-wrap">
               <button

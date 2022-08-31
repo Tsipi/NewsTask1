@@ -7,6 +7,13 @@
     flex-direction: column;
     text-align: left;
 }   
+.formTitle{
+    font-size: 1.8rem;
+    font-family: var(--font-medium);
+    color: var(--black);      
+    font-weight: bold;   
+    text-align: left;
+}
 input {
     font-family: var(--font-normal);
     color: var(--black);
