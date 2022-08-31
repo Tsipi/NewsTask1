@@ -15,6 +15,8 @@ export const AddNewsForm = () => {
   const title = useSelector((state: State) => state.addNewsForm.title);
   const date = useSelector((state: State) => state.addNewsForm.date);
   const [errorUrl, setErrorUrl] = useState<string | null>(null);
+  const [errorTitle, setErrorTitle] = useState<string | null>(null);
+  
 
   const handleSubmit = () => {      
     if(!url){
@@ -23,6 +25,10 @@ export const AddNewsForm = () => {
     } 
     if(!isValidUrl(url)){
        setErrorUrl("This is not a valid url");
+       return;
+    } 
+    if(!title){
+       setErrorTitle("Please type a title");
        return;
     } 
     if (date && title) {        
@@ -51,6 +57,17 @@ export const AddNewsForm = () => {
   };
 
   return (
-    <NewsForm errorUrl={errorUrl} handleDateChange={handleDateChange} handleTitleChange={handleTitleChange} handleUrlChange={handleUrlChange} handleSubmit={handleSubmit} />
+    <NewsForm
+        title={title}
+        url={url}
+        date={date}
+        formTitle={"Add an Article"}
+        errorTitle={errorTitle}
+        errorUrl={errorUrl}
+        handleDateChange={handleDateChange}
+        handleTitleChange={handleTitleChange}
+        handleUrlChange={handleUrlChange}
+        handleSubmit={handleSubmit}
+    />
   )
 };

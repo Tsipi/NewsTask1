@@ -68,6 +68,7 @@ export const EditNewsForm = () => {
 
   return (
     <NewsForm
+      formTitle={"Edit an Article"}
       url={url}
       title={title}
       date={date}
