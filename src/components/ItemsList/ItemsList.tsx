@@ -28,7 +28,7 @@ export const ItemsList = () => {
           <li key={index}>
             <a href={item.url} className="news-wrap">
               <div className={styles.newsTitle}>
-                  <span>{item.url}</span> - <span>{format(new Date(item.date),"dd/MM/yyyy")}</span>
+                  <span>{new URL(item.url).hostname}</span> - <span>{format(new Date(item.date),"dd/MM/yyyy")}</span>
               </div>             
               <p>{item.title}</p>
             </a>
