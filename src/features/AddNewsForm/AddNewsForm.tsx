@@ -1,12 +1,13 @@
 import "react-datepicker/dist/react-datepicker.css";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { closePopup, State } from "../../store";
 import { NewsForm } from "../../components/NewsForm/NewsForm";
 import { updateDate, updateTitle, updateUrl } from "./addNewsFormSlice";
 import { addNewsItem } from "../../components/ItemsList/itemsListSlice";
 import { isValidUrl } from "../../utils/isValidUrl";
+import { useFetchArticleData } from "../../hooks/useFetchArticleData";
 
 export const AddNewsForm = () => {
   const dispatch = useDispatch();
@@ -16,22 +17,28 @@ export const AddNewsForm = () => {
   const date = useSelector((state: State) => state.addNewsForm.date);
   const [errorUrl, setErrorUrl] = useState<string | null>(null);
   const [errorTitle, setErrorTitle] = useState<string | null>(null);
-  
+  const { data, isLoading } = useFetchArticleData(url);
 
-  const handleSubmit = () => {      
-    if(!url){
-       setErrorUrl("Please paste a valid url");
-       return;
-    } 
-    if(!isValidUrl(url)){
-       setErrorUrl("This is not a valid url");
-       return;
-    } 
-    if(!title){
-       setErrorTitle("Please type a title");
-       return;
-    } 
-    if (date && title) {        
+  useEffect(() => {
+    if (data?.title) {
+      dispatch(updateTitle({ title: data.title }));
+    }
+  }, [data?.title, dispatch]);
+
+  const handleSubmit = () => {
+    if (!url) {
+      setErrorUrl("Please paste a valid url");
+      return;
+    }
+    if (!isValidUrl(url)) {
+      setErrorUrl("This is not a valid url");
+      return;
+    }
+    if (!title) {
+      setErrorTitle("Please type a title");
+      return;
+    }
+    if (date && title) {
       dispatch(
         addNewsItem({
           url,
@@ -39,8 +46,8 @@ export const AddNewsForm = () => {
           title,
         })
       );
-      // add close handler 
-      dispatch(closePopup())
+      // add close handler
+      dispatch(closePopup());
     }
   };
 
@@ -58,16 +65,17 @@ export const AddNewsForm = () => {
 
   return (
     <NewsForm
-        title={title}
-        url={url}
-        date={date}
-        formTitle={"Add an Article"}
-        errorTitle={errorTitle}
-        errorUrl={errorUrl}
-        handleDateChange={handleDateChange}
-        handleTitleChange={handleTitleChange}
-        handleUrlChange={handleUrlChange}
-        handleSubmit={handleSubmit}
+      isLoading={isLoading}
+      title={title}
+      url={url}
+      date={date}
+      formTitle={"Add an Article"}
+      errorTitle={errorTitle}
+      errorUrl={errorUrl}
+      handleDateChange={handleDateChange}
+      handleTitleChange={handleTitleChange}
+      handleUrlChange={handleUrlChange}
+      handleSubmit={handleSubmit}
     />
-  )
+  );
 };

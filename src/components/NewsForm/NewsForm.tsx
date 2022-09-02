@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import styles from "./NewsForm.module.scss";
 import DatePicker from "react-datepicker";
 import { Button } from "../shared/button/button";
-import {sub, format} from 'date-fns'
+import { sub, format } from "date-fns";
 // import { ruTranslations } from "stream-chat-react";
 
 // TODO:
@@ -24,6 +24,7 @@ import {sub, format} from 'date-fns'
 //https://api.embedly.com/1/extract?key=KEY&url=[address]
 
 interface Props {
+  isLoading?: boolean;
   url?: string | null;
   title?: string | null;
   date?: string | null;
@@ -37,6 +38,7 @@ interface Props {
 }
 
 export const NewsForm = ({
+  isLoading,
   handleUrlChange,
   handleTitleChange,
   handleDateChange,
@@ -46,7 +48,7 @@ export const NewsForm = ({
   errorUrl,
   errorTitle,
   formTitle,
-  handleSubmit
+  handleSubmit,
 }: Props) => {
   return (
     <form
@@ -54,6 +56,7 @@ export const NewsForm = ({
         event.preventDefault();
       }}
     >
+      {isLoading ? <div>Loading...</div> : null}
       <legend className={styles.formTitle}>{formTitle}</legend>
       <div className={styles.inputContainer}>
         <div className={styles.inputLabel}>News Item URL *</div>
@@ -63,9 +66,7 @@ export const NewsForm = ({
           placeholder="Paste Link"
           onChange={(event) => handleUrlChange(event.target.value)}
         />
-        {errorUrl && (
-          <div className={styles.errorLabel}>{errorUrl}</div>
-        )}
+        {errorUrl && <div className={styles.errorLabel}>{errorUrl}</div>}
       </div>
       <div className={styles.inputContainer}>
         <div className={styles.inputLabel}>Date *</div>
@@ -73,12 +74,12 @@ export const NewsForm = ({
           selected={date ? new Date(date) : new Date()}
           showPopperArrow={false}
           onChange={(date: Date) => {
-            handleDateChange(date.toISOString())
+            handleDateChange(date.toISOString());
           }}
           dateFormat="MMMM d, yyyy"
           className="news-date"
           minDate={sub(new Date(), {
-            years: 5
+            years: 5,
           })}
         />
       </div>
@@ -90,10 +91,7 @@ export const NewsForm = ({
           placeholder="Type article summary here..."
           onChange={(event) => handleTitleChange(event.target.value)}
         />
-        {errorTitle && (
-          <div className={styles.errorLabel}>{errorTitle}</div>
-        )}
-        
+        {errorTitle && <div className={styles.errorLabel}>{errorTitle}</div>}
       </div>
       <div className={styles.inputContainer}></div>
       <div className={styles.btnsContainer}>
