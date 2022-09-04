@@ -30,7 +30,13 @@ export const EditNewsForm = () => {
   const [errorUrl, setErrorUrl] = useState<string | null>(null);
   const [errorTitle, setErrorTitle] = useState<string | null>(null);
 
-  const { data, isLoading } = useFetchArticleData(url);
+  const { data, isLoading, fetchArticle } = useFetchArticleData(url);
+  
+  useEffect(() => {
+    if (data?.title) {        
+        dispatch(updateTitle({ title: data.title }));
+    }
+  },[data?.title])
 
   useEffect(() => {
     if (initialNewsItem?.url) {
@@ -42,11 +48,7 @@ export const EditNewsForm = () => {
     if (initialNewsItem?.title) {
       dispatch(updateTitle({ title: initialNewsItem?.title }));
     }
-    //data from useFetchArticleData
-    if (data?.title) {        
-      dispatch(updateTitle({ title: data.title }));
-    }
-  }, [initialNewsItem, dispatch, data?.title]);
+  }, [initialNewsItem, dispatch]);
 
   const handleSubmit = () => {
       if (!url) {
@@ -100,6 +102,11 @@ export const EditNewsForm = () => {
       handleTitleChange={handleTitleChange}
       handleUrlChange={handleUrlChange}
       handleSubmit={handleSubmit}
+      onArticleTitleFetch={() => {
+        if (url) {
+          fetchArticle(url)
+        }
+      }}
     />
   );
 };

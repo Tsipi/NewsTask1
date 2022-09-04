@@ -18,6 +18,7 @@ interface Props {
   handleTitleChange: (title: string) => void;
   handleDateChange: (date: string) => void;
   handleSubmit: () => void;
+  onArticleTitleFetch?: () => any;
 }
 
 export const NewsForm = ({
@@ -32,6 +33,7 @@ export const NewsForm = ({
   errorTitle,
   formTitle,
   handleSubmit,
+  onArticleTitleFetch
 }: Props) => {
   return (
     <form
@@ -41,7 +43,10 @@ export const NewsForm = ({
     >      
       <legend className={styles.formTitle}>{formTitle}</legend>
       <div className={styles.inputContainer}>
-        <div className={styles.inputLabel}>News Item URL *</div>
+        <div className={styles.inputLabel}>
+            News Item URL * 
+            {onArticleTitleFetch ? <button onClick={onArticleTitleFetch}>Fetch article title</button> : null }
+        </div>
         <input
           value={url!}
           type="input"

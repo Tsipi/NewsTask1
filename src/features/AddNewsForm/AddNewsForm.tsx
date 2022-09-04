@@ -15,12 +15,12 @@ export const AddNewsForm = () => {
   const date = useSelector((state: State) => state.addNewsForm.date);
   const [errorUrl, setErrorUrl] = useState<string | null>(null);
   const [errorTitle, setErrorTitle] = useState<string | null>(null);
-  const { data, isLoading } = useFetchArticleData(url);
+  const { data, isLoading, fetchArticle } = useFetchArticleData(url);
 
   useEffect(() => {
       if (data?.title) {        
-      dispatch(updateTitle({ title: data.title }));
-    }
+        dispatch(updateTitle({ title: data.title }));
+      }
   }, [data?.title, dispatch]);
 
   const handleSubmit = () => {
@@ -75,6 +75,11 @@ export const AddNewsForm = () => {
       handleTitleChange={handleTitleChange}
       handleUrlChange={handleUrlChange}
       handleSubmit={handleSubmit}
+      onArticleTitleFetch={() => {
+        if (url) {
+          fetchArticle(url)
+        }
+      }}
     />
   );
 };
