@@ -48,7 +48,7 @@ export const NewsForm = ({
             {onArticleTitleFetch ? <button onClick={onArticleTitleFetch}>Fetch article title</button> : null }
         </div>
         <input
-          value={url!}
+          value={url || ''}
           type="input"
           placeholder="Paste Link"
           onChange={(event) => handleUrlChange(event.target.value)}
@@ -74,7 +74,7 @@ export const NewsForm = ({
       <div className={styles.inputContainer}>
         <div className={styles.inputLabel}>Article Title *</div>
         <textarea
-          value={title!}
+          value={title || ''}
           id="articleSummary"
           placeholder="Type article summary here..."
           onChange={(event) => handleTitleChange(event.target.value)}
