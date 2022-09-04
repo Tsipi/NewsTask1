@@ -1,6 +1,5 @@
-import "react-datepicker/dist/react-datepicker.css";
-
 import React, { useEffect, useState } from "react";
+import "react-datepicker/dist/react-datepicker.css";
 import { useSelector, useDispatch } from "react-redux";
 import { closePopup, State } from "../../store";
 import { NewsForm } from "../../components/NewsForm/NewsForm";
@@ -11,7 +10,6 @@ import { useFetchArticleData } from "../../hooks/useFetchArticleData";
 
 export const AddNewsForm = () => {
   const dispatch = useDispatch();
-  //helps to get the data from the state - accepts selector function
   const url = useSelector((state: State) => state.addNewsForm.url);
   const title = useSelector((state: State) => state.addNewsForm.title);
   const date = useSelector((state: State) => state.addNewsForm.date);
@@ -20,7 +18,7 @@ export const AddNewsForm = () => {
   const { data, isLoading } = useFetchArticleData(url);
 
   useEffect(() => {
-    if (data?.title) {
+      if (data?.title) {        
       dispatch(updateTitle({ title: data.title }));
     }
   }, [data?.title, dispatch]);
@@ -45,7 +43,10 @@ export const AddNewsForm = () => {
           date,
           title,
         })
-      );
+      );  
+      //Clearing form variables afer submit           
+      dispatch(updateUrl({url: ""}));  
+      dispatch(updateTitle({title: ""}));    
       // add close handler
       dispatch(closePopup());
     }
@@ -60,15 +61,13 @@ export const AddNewsForm = () => {
   };
 
   const handleTitleChange = (title: string) => {
-    dispatch(updateTitle({ title }));
+     dispatch(updateTitle({ title }));
   };
-
-  return (
+  
+ return (
     <NewsForm
       isLoading={isLoading}
       title={title}
-      url={url}
-      date={date}
       formTitle={"Add an Article"}
       errorTitle={errorTitle}
       errorUrl={errorUrl}

@@ -9,7 +9,7 @@ export const useFetchArticleData = (url: string | null | undefined) => {
   const [data, setData] = useState<TData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const fetchArticle = (url: string) => {
+  const fetchArticle = async (url: string) => {
     return axios.get(url).then((response) => {
       setIsLoading(false);
       const title = parseTitleFromHTML(response.data);
