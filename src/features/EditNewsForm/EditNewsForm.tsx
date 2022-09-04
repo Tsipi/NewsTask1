@@ -36,7 +36,7 @@ export const EditNewsForm = () => {
     if (data?.title) {        
         dispatch(updateTitle({ title: data.title }));
     }
-  },[data?.title])
+  },[data?.title, dispatch])
 
   useEffect(() => {
     if (initialNewsItem?.url) {
