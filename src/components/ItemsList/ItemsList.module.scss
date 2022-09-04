@@ -35,14 +35,15 @@
       }
     } 
   }
-  .itemsList ul{
+  .itemsListUl{
       list-style-type: none;
       padding: 0;
       margin: 20px;
       width: 100%; 
       text-align: left;
+       font-size: 1.8rem;
   }
-  .news-title{
+  .newsTitle{
           color: grey;
           font-weight: 400;  
   }

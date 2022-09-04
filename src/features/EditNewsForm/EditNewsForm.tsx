@@ -1,6 +1,4 @@
-import "react-datepicker/dist/react-datepicker.css";
-
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { closePopup, State } from "../../store";
 import { NewsForm } from "../../components/NewsForm/NewsForm";
@@ -10,6 +8,8 @@ import {
   updateUrl
 } from "../EditNewsForm/editNewsFormSlice";
 import { editNewsItem } from "../../components/ItemsList/itemsListSlice";
+import { useFetchArticleData } from "../../hooks/useFetchArticleData";
+import { isValidUrl } from "../../utils/isValidUrl";
 
 export const EditNewsForm = () => {
   const dispatch = useDispatch();
@@ -26,6 +26,11 @@ export const EditNewsForm = () => {
   const initialNewsItem = itemsList.find((item) => {
     return item.id === selectedItemId;
   });
+  
+  const [errorUrl, setErrorUrl] = useState<string | null>(null);
+  const [errorTitle, setErrorTitle] = useState<string | null>(null);
+
+  const { data, isLoading } = useFetchArticleData(url);
 
   useEffect(() => {
     if (initialNewsItem?.url) {
@@ -37,9 +42,25 @@ export const EditNewsForm = () => {
     if (initialNewsItem?.title) {
       dispatch(updateTitle({ title: initialNewsItem?.title }));
     }
-  }, [initialNewsItem, dispatch]);
+    //data from useFetchArticleData
+    if (data?.title) {        
+      dispatch(updateTitle({ title: data.title }));
+    }
+  }, [initialNewsItem, dispatch, data?.title]);
 
   const handleSubmit = () => {
+      if (!url) {
+      setErrorUrl("Please paste a valid url");
+      return;
+    }
+    if (!isValidUrl(url)) {
+      setErrorUrl("This is not a valid url");
+      return;
+    }
+    if (!title) {
+      setErrorTitle("Please type a title");
+      return;
+    }  
     if (url && date && title && typeof selectedItemId === "number") {
       dispatch(
         editNewsItem({
@@ -68,10 +89,13 @@ export const EditNewsForm = () => {
 
   return (
     <NewsForm
+      isLoading={isLoading}
       formTitle={"Edit an Article"}
       url={url}
       title={title}
       date={date}
+      errorTitle={errorTitle}
+      errorUrl={errorUrl}
       handleDateChange={handleDateChange}
       handleTitleChange={handleTitleChange}
       handleUrlChange={handleUrlChange}
