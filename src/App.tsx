@@ -6,6 +6,8 @@ import { ItemsList } from "./components/ItemsList/ItemsList";
 import { AddNewsForm } from "./features/AddNewsForm/AddNewsForm";
 import { useDispatch, useSelector } from "react-redux";
 import { EditNewsForm } from "./features/EditNewsForm/EditNewsForm";
+import { useEffect } from "react";
+import axios from "axios";
 
 function App() {
   //1. get a value from the state - useSelectro
@@ -19,6 +21,14 @@ function App() {
   const popup = useSelector((state: State) => state.popup);
   const openAddNewsForm = () => dispatch(openPopup({ popup: "new" }));
   const closeAddNewsForm = () => dispatch(closePopup());
+  
+  useEffect(() => {
+      (async () => {
+          const response = await axios({url: 'http://localhost:3001/api/hello'})
+          
+          console.log({ response })
+      })()
+  },[])
 
   return (
     <div className="App">
