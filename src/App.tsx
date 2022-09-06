@@ -1,13 +1,12 @@
 import './App.scss';
 
-import React from 'react';
+import * as React from 'react';
 import { Popup } from './components/Popup/Popup';
 import { closePopup, openPopup, State } from './store';
 import { ItemsList } from './components/ItemsList/ItemsList';
 import { AddNewsForm } from './features/AddNewsForm/AddNewsForm';
 import { useDispatch, useSelector } from 'react-redux';
 import { EditNewsForm } from './features/EditNewsForm/EditNewsForm';
-import axios from 'axios';
 
 function App() {
   //1. get a value from the state - useSelectro
