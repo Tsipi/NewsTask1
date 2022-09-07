@@ -8,6 +8,7 @@ import { deleteNewsItem } from "./ItemsList.slice";
 import { editNewsForm } from "../../features/EditNewsForm/editNewsFormSlice";
 import { format } from "date-fns";
 
+// ItemsList is not used anumore, you need to remove it
 export const ItemsList = () => {
   const dispatch = useDispatch();
   const itemsList = useSelector((state: State) => state.itemsList.items);

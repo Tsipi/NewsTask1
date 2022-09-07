@@ -19,6 +19,8 @@ export const postNews = createAsyncThunk(
                 "news_url": url
             },
         )
+        // this needs to fullfill with response.data
+        // response object contains much more stuff than you need in your reducer
         return thunk.fulfillWithValue(response)
     } catch(e) {
       return thunk.rejectWithValue(e)

@@ -27,6 +27,9 @@ export const deleteNews = createAsyncThunk(
       const response = await client.delete(
         `/startups/${companyId}/news/${newsId}`
       );
+      // does this response have any data?
+      // if yes this needs to fillfill with response.data
+      // if not then don't fullfill anything
       return thunk.fulfillWithValue(response);
     } catch (e) {
       return thunk.rejectWithValue(e);

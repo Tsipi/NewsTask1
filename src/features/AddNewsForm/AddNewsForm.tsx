@@ -46,6 +46,22 @@ export const AddNewsForm = () => {
       );
       dispatch(updateUrl({ url: "" }));
       dispatch(updateTitle({ title: "" }));
+      // getCompanyNews needs to be dispatched ONLY when postNews is actually resolved
+      // I think you can do something like this:
+      // store.dispatch(
+      //   postNews({
+      //     url,
+      //     date,
+      //     title,
+      //     companyId: "agxzfmlsbGlzdHNpdGVyGAsSC05ld19Db21wYW55GICAgL6qvKcJDA",
+      //   })
+      // ).then(() => { 
+      //   dispatch(
+      //     getCompanyNews({
+      //       companyId: "agxzfmlsbGlzdHNpdGVyGAsSC05ld19Db21wYW55GICAgL6qvKcJDA",
+      //     })
+      //   );
+      //  })
       dispatch(
         getCompanyNews({
           companyId: "agxzfmlsbGlzdHNpdGVyGAsSC05ld19Db21wYW55GICAgL6qvKcJDA",
