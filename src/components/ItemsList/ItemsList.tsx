@@ -4,9 +4,9 @@ import styles from "./ItemsList.module.scss";
 import { openPopup, State } from "../../store";
 import deleteIcon from "../../assets/svg/delete-icon.svg";
 import editIcon from "../../assets/svg/edit-icon.svg";
-import { deleteNewsItem } from "./itemsListSlice";
+import { deleteNewsItem } from "./ItemsList.slice";
 import { editNewsForm } from "../../features/EditNewsForm/editNewsFormSlice";
-import {format} from 'date-fns'
+import { format } from "date-fns";
 
 export const ItemsList = () => {
   const dispatch = useDispatch();
@@ -28,8 +28,9 @@ export const ItemsList = () => {
           <li key={index}>
             <a href={item.url} className="news-wrap">
               <div className={styles.newsTitle}>
-                  <span>{new URL(item.url).hostname}</span> - <span>{format(new Date(item.date),"dd/MM/yyyy")}</span>
-              </div>             
+                <span>{new URL(item.url).hostname}</span> -{" "}
+                <span>{format(new Date(item.date), "dd/MM/yyyy")}</span>
+              </div>
               <div>{item.title}</div>
             </a>
             <div className="btns-wrap">

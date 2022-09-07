@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { closePopup, State } from "../../store";
 import { NewsForm } from "../../components/NewsForm/NewsForm";
-import {
-  updateTitle,
-  updateDate,
-  updateUrl
-} from "../EditNewsForm/editNewsFormSlice";
-import { editNewsItem } from "../../components/ItemsList/itemsListSlice";
+import { updateTitle, updateDate, updateUrl } from "./editNewsFormSlice";
+import { editNewsItem } from "../../components/ItemsList/ItemsList.slice";
 import { useFetchArticleData } from "../../hooks/useFetchArticleData";
 import { isValidUrl } from "../../utils/isValidUrl";
 
@@ -26,17 +22,17 @@ export const EditNewsForm = () => {
   const initialNewsItem = itemsList.find((item) => {
     return item.id === selectedItemId;
   });
-  
+
   const [errorUrl, setErrorUrl] = useState<string | null>(null);
   const [errorTitle, setErrorTitle] = useState<string | null>(null);
 
   const { data, isLoading, fetchArticle } = useFetchArticleData(url);
-  
+
   useEffect(() => {
-    if (data?.title) {        
-        dispatch(updateTitle({ title: data.title }));
+    if (data?.title) {
+      dispatch(updateTitle({ title: data.title }));
     }
-  },[data?.title, dispatch])
+  }, [data?.title, dispatch]);
 
   useEffect(() => {
     if (initialNewsItem?.url) {
@@ -51,7 +47,7 @@ export const EditNewsForm = () => {
   }, [initialNewsItem, dispatch]);
 
   const handleSubmit = () => {
-      if (!url) {
+    if (!url) {
       setErrorUrl("Please paste a valid url");
       return;
     }
@@ -62,14 +58,14 @@ export const EditNewsForm = () => {
     if (!title) {
       setErrorTitle("Please type a title");
       return;
-    }  
+    }
     if (url && date && title && typeof selectedItemId === "number") {
       dispatch(
         editNewsItem({
           id: selectedItemId,
           url,
           date,
-          title
+          title,
         })
       );
       // add close handler
@@ -104,7 +100,7 @@ export const EditNewsForm = () => {
       handleSubmit={handleSubmit}
       onArticleTitleFetch={() => {
         if (url) {
-          fetchArticle(url)
+          fetchArticle(url);
         }
       }}
     />

@@ -20,7 +20,7 @@ export const useFetchArticleData = (url: string | null | undefined) => {
     });
   };
 
-  return { data, isLoading, fetchArticle };
+  return { data, isLoading, fetchArticle }; 
 };
 
 function parseTitleFromHTML(html: string) {

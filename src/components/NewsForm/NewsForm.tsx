@@ -33,22 +33,24 @@ export const NewsForm = ({
   errorTitle,
   formTitle,
   handleSubmit,
-  onArticleTitleFetch
+  onArticleTitleFetch,
 }: Props) => {
   return (
     <form
       onSubmit={(event) => {
         event.preventDefault();
       }}
-    >      
-      <legend className={styles.formTitle}>{formTitle}</legend>
+    >
+      <div className={styles.formTitleBold}>{formTitle}</div>
       <div className={styles.inputContainer}>
         <div className={styles.inputLabel}>
-            News Item URL * 
-            {onArticleTitleFetch ? <button onClick={onArticleTitleFetch}>Fetch article title</button> : null }
+          News Item URL *
+          {onArticleTitleFetch ? (
+            <button onClick={onArticleTitleFetch}>Fetch article title</button>
+          ) : null}
         </div>
         <input
-          value={url || ''}
+          value={url!}
           type="input"
           placeholder="Paste Link"
           onChange={(event) => handleUrlChange(event.target.value)}
@@ -74,7 +76,7 @@ export const NewsForm = ({
       <div className={styles.inputContainer}>
         <div className={styles.inputLabel}>Article Title *</div>
         <textarea
-          value={title || ''}
+          value={title!}
           id="articleSummary"
           placeholder="Type article summary here..."
           onChange={(event) => handleTitleChange(event.target.value)}
@@ -83,7 +85,7 @@ export const NewsForm = ({
       </div>
       <div className={styles.inputContainer}></div>
       <div className={styles.btnsContainer}>
-        <Button text="SAVE" onClick={handleSubmit} />
+        <Button text="save" onClick={handleSubmit} />
       </div>
     </form>
   );

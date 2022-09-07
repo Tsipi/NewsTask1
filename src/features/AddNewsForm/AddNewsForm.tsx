@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
-import "react-datepicker/dist/react-datepicker.css";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { closePopup, State } from "../../store";
-import { NewsForm } from "../../components/NewsForm/NewsForm";
-import { updateDate, updateTitle, updateUrl } from "./addNewsFormSlice";
-import { addNewsItem } from "../../components/ItemsList/itemsListSlice";
+import { closePopup, State, store } from "../../store";
+import { updateDate, updateTitle, updateUrl } from "./addNewsForm.slice";
 import { isValidUrl } from "../../utils/isValidUrl";
 import { useFetchArticleData } from "../../hooks/useFetchArticleData";
+import { postNews } from "./addNewsForm.thunk";
+import { NewsForm } from "../../components/NewsForm/NewsForm";
 
 export const AddNewsForm = () => {
   const dispatch = useDispatch();
@@ -18,9 +17,9 @@ export const AddNewsForm = () => {
   const { data, isLoading, fetchArticle } = useFetchArticleData(url);
 
   useEffect(() => {
-      if (data?.title) {        
-        dispatch(updateTitle({ title: data.title }));
-      }
+    if (data?.title) {
+      dispatch(updateTitle({ title: data.title }));
+    }
   }, [data?.title, dispatch]);
 
   const handleSubmit = () => {
@@ -37,17 +36,21 @@ export const AddNewsForm = () => {
       return;
     }
     if (date && title) {
-      dispatch(
-        addNewsItem({
+      store.dispatch(
+        postNews({
           url,
           date,
           title,
+          companyId: "agxzfmlsbGlzdHNpdGVyGAsSC05ld19Db21wYW55GICAgL6qvKcJDA",
         })
-      );  
-      //Clearing form variables afer submit           
-      dispatch(updateUrl({url: ""}));  
-      dispatch(updateTitle({title: ""}));    
-      // add close handler
+      );
+      dispatch(updateUrl({ url: "" }));
+      dispatch(updateTitle({ title: "" }));
+      dispatch(
+        getCompanyNews({
+          companyId: "agxzfmlsbGlzdHNpdGVyGAsSC05ld19Db21wYW55GICAgL6qvKcJDA",
+        })
+      );
       dispatch(closePopup());
     }
   };
@@ -61,11 +64,12 @@ export const AddNewsForm = () => {
   };
 
   const handleTitleChange = (title: string) => {
-     dispatch(updateTitle({ title }));
+    dispatch(updateTitle({ title }));
   };
-  
- return (
+
+  return (
     <NewsForm
+      url={url}
       isLoading={isLoading}
       title={title}
       formTitle={"Add an Article"}
@@ -77,9 +81,12 @@ export const AddNewsForm = () => {
       handleSubmit={handleSubmit}
       onArticleTitleFetch={() => {
         if (url) {
-          fetchArticle(url)
+          fetchArticle(url);
         }
       }}
     />
   );
 };
+function getCompanyNews(arg0: { companyId: string }): any {
+  throw new Error("Function not implemented.");
+}
