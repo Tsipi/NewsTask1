@@ -14,6 +14,7 @@ const intialState: EditNewsFormState = {
   date: null
 };
 
+// Please fix the name of the file
 export const editNewsFormSlice = createSlice({
   name: "editNewsForm",
   initialState: intialState,

@@ -3,6 +3,8 @@ import React from 'react'
 import { ButtonProps, ButtonType } from '../../../types'
 import styles from './button.module.scss'
 
+// Make sure function name and file/folder name matches the file name
+// All has to be PascalCased -> Button/Button.tsx
 export const Button = (props: ButtonProps) => {
   const { type = ButtonType.PRIMARY, onClick, text, isLoading, width, color, icon: Icon, disabled } = props
 
