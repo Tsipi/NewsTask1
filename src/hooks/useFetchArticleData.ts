@@ -10,17 +10,22 @@ export const useFetchArticleData = (url: string | null | undefined) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const fetchArticle = async (url: string) => {
-    setData(null)
-    return axios.get(url).then((response) => {
-      setIsLoading(false);
-      const title = parseTitleFromHTML(response.data);
-      if (title) {
-        setData({ title });
-      }
-    });
+    setData(null);
+    return axios
+      .get(url)
+      .then((response) => {
+        setIsLoading(false);
+        const title = parseTitleFromHTML(response.data);
+        if (title) {
+          setData({ title });
+        }
+      })
+      .catch((error) => {
+        console.log("Can not fetch Title from given URL");
+      });
   };
 
-  return { data, isLoading, fetchArticle }; 
+  return { data, isLoading, fetchArticle };
 };
 
 function parseTitleFromHTML(html: string) {

@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { closePopup, State } from "../../store";
+import { closePopup, State, store } from "../../store";
 import { NewsForm } from "../../components/NewsForm/NewsForm";
-import { updateTitle, updateDate, updateUrl } from "./editNewsFormSlice";
-import { editNewsItem } from "../../components/ItemsList/ItemsList.slice";
+import { updateTitle, updateDate, updateUrl } from "./editNewsForm.slice";
 import { useFetchArticleData } from "../../hooks/useFetchArticleData";
 import { isValidUrl } from "../../utils/isValidUrl";
+import { editNews, getCompanyNews } from "../Company/Company.thunks";
+import { getCompanyId } from "../../utils/getCompanyId";
 
 export const EditNewsForm = () => {
   const dispatch = useDispatch();
@@ -15,10 +16,8 @@ export const EditNewsForm = () => {
   const title = useSelector((state: State) => state.editNewsForm.title);
   const url = useSelector((state: State) => state.editNewsForm.url);
   const date = useSelector((state: State) => state.editNewsForm.date);
-  // find item by selectedItemId in the state
-  // 1. get all news items from the state
-  // 2. find selected item by its id
-  const itemsList = useSelector((state: State) => state.itemsList.items);
+
+  const itemsList = useSelector((state: State) => state.companyNews.items);
   const initialNewsItem = itemsList.find((item) => {
     return item.id === selectedItemId;
   });
@@ -59,15 +58,24 @@ export const EditNewsForm = () => {
       setErrorTitle("Please type a title");
       return;
     }
-    if (url && date && title && typeof selectedItemId === "number") {
-      dispatch(
-        editNewsItem({
-          id: selectedItemId,
-          url,
-          date,
-          title,
-        })
-      );
+    if (url && date && title && selectedItemId) {
+      store
+        .dispatch(
+          editNews({
+            url,
+            companyId: getCompanyId(),
+            date,
+            title,
+            newsId: selectedItemId,
+          })
+        )
+        .then(() => {
+          store.dispatch(
+            getCompanyNews({
+              companyId: getCompanyId(),
+            })
+          );
+        });
       // add close handler
       dispatch(closePopup());
     }
