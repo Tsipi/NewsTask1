@@ -1,6 +1,6 @@
 import "./App.scss";
 
-// import React from "react";
+import React from "react";
 import { Popup } from "./components/Popup/Popup";
 import { closePopup, openPopup, State } from "./store";
 import { AddNewsForm } from "./features/AddNewsForm/AddNewsForm";
