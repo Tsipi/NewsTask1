@@ -1,11 +1,14 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { closePopup, State, store } from "../../store";
+import { NewsForm } from "../../components/NewsForm/NewsForm";
 import { updateDate, updateTitle, updateUrl } from "./addNewsForm.slice";
 import { isValidUrl } from "../../utils/isValidUrl";
 import { useFetchArticleData } from "../../hooks/useFetchArticleData";
 import { postNews } from "./addNewsForm.thunk";
-import { NewsForm } from "../../components/NewsForm/NewsForm";
+import { getCompanyNews } from "../Company/Company.thunks";
+import { getCompanyId } from "../../utils/getCompanyId";
+import { format } from "date-fns";
 
 export const AddNewsForm = () => {
   const dispatch = useDispatch();
@@ -25,6 +28,10 @@ export const AddNewsForm = () => {
   const handleSubmit = () => {
     if (!url) {
       setErrorUrl("Please paste a valid url");
+      if (!title) {
+        setErrorTitle("Please type a title");
+        return;
+      }
       return;
     }
     if (!isValidUrl(url)) {
@@ -36,21 +43,25 @@ export const AddNewsForm = () => {
       return;
     }
     if (date && title) {
-      store.dispatch(
-        postNews({
-          url,
-          date,
-          title,
-          companyId: "agxzfmlsbGlzdHNpdGVyGAsSC05ld19Db21wYW55GICAgL6qvKcJDA",
-        })
-      );
+      store
+        .dispatch(
+          postNews({
+            url,
+            date,
+            title,
+            companyId: getCompanyId(),
+          })
+        )
+        .then(() => {
+          store.dispatch(
+            getCompanyNews({
+              companyId: getCompanyId(),
+            })
+          );
+        });
+
       dispatch(updateUrl({ url: "" }));
       dispatch(updateTitle({ title: "" }));
-      dispatch(
-        getCompanyNews({
-          companyId: "agxzfmlsbGlzdHNpdGVyGAsSC05ld19Db21wYW55GICAgL6qvKcJDA",
-        })
-      );
       dispatch(closePopup());
     }
   };
@@ -87,6 +98,3 @@ export const AddNewsForm = () => {
     />
   );
 };
-function getCompanyNews(arg0: { companyId: string }): any {
-  throw new Error("Function not implemented.");
-}

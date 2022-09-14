@@ -1,0 +1,26 @@
+
+.react-datepicker{
+    width: 14em; 
+    font-size: 1.4em;
+}
+
+.react-datepicker__month-container{
+    width: 100%;
+}
+.react-datepicker__month{
+    margin: 1rem;
+}
+.react-datepicker__current-month{
+    font-size: 1.2em;
+}
+.react-datepicker__day{
+    width: 2rem;
+}
+.react-datepicker__day--selected, .react-datepicker__day--keyboard-selected{
+    background-color: var(--yellow);
+    color: black;
+}
+.react-datepicker__day--selected:hover{
+    background-color: var(--yellow);
+
+}

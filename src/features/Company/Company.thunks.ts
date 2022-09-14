@@ -1,8 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { client } from "../../client";
+import { format } from "date-fns";
 
 export const getCompanyNews = createAsyncThunk(
-  "addNewsForm/getCompany",
+  "company/getCompany",
   async ({ companyId }: { companyId: string }, thunk) => {
     try {
       const response = await client.get(
@@ -21,13 +22,37 @@ export const getCompanyNews = createAsyncThunk(
 );
 
 export const deleteNews = createAsyncThunk(
-  "addNewsForm/deleteNews",
-  async ({ companyId, newsId }: any, thunk) => {
+  "company/deleteNews",
+  async (
+    { companyId, newsId }: { companyId: string; newsId: string },
+    thunk
+  ) => {
     try {
-      const response = await client.delete(
-        `/startups/${companyId}/news/${newsId}`
-      );
-      return thunk.fulfillWithValue(response);
+      await client.delete(`/startups/${companyId}/news/${newsId}`);
+    } catch (e) {
+      return thunk.rejectWithValue(e);
+    }
+  }
+);
+
+interface EditNewsArgs {
+  companyId: string;
+  newsId: string;
+  title: string;
+  date: string;
+  url: string;
+}
+
+export const editNews = createAsyncThunk(
+  "company/editNews",
+  async ({ companyId, newsId, title, date, url }: EditNewsArgs, thunk) => {
+    const formatedDate = format(new Date(date), "dd/MM/yyyy");
+    try {
+      await client.post(`/startups/${companyId}/news/${newsId}`, {
+        news_summary: title,
+        news_url: url,
+        news_date: formatedDate,
+      });
     } catch (e) {
       return thunk.rejectWithValue(e);
     }
