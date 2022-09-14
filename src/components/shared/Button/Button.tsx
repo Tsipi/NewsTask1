@@ -1,6 +1,6 @@
-//import React from "react";
+import React from "react";
 import { ButtonProps, ButtonType } from "../../../types";
-import styles from "./Button.module.scss";
+import styles from "./button.module.scss";
 
 export const Button = (props: ButtonProps) => {
   const {
